@@ -60,4 +60,9 @@ public class ListItem implements Comparable<ListItem>{
         // return new JLabel("hi");
         return comp;
     }
+
+    public ListItem parseString(String s) {
+        // TODO - implement
+        return null;
+    }
 }
