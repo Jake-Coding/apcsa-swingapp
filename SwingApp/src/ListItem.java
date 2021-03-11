@@ -40,7 +40,7 @@ public class ListItem implements Comparable<ListItem>{
     }
 
     public String toString() {
-        return name + ":" + description +":"+ (isDone ? "finished" : "unfinished");
+        return name + ":" + description +":"+ (isDone ? "true" : "false");
     }
 
     public JComponent toComponent() {
