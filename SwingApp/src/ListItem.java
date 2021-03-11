@@ -6,10 +6,13 @@ public class ListItem implements Comparable<ListItem>{
     private String description;
     private boolean isDone;
 
+    private String fix(String s) {
+        return s.replaceAll(":", "");
+    }
     public ListItem(String name, String description, boolean isDone) {
-        this.name = name;
-        this.description = description;
-        this.isDone = isDone;
+        this.name = fix(name);
+        this.description = fix(description);
+        this.isDone = (isDone);
     }
     public ListItem(String name, String description) {
         this(name, description, false);
@@ -37,7 +40,7 @@ public class ListItem implements Comparable<ListItem>{
     }
 
     public String toString() {
-        return name + ":" + description + (isDone ? "finished" : "unfinished");
+        return name + ":" + description +":"+ (isDone ? "finished" : "unfinished");
     }
 
     public JComponent toComponent() {
@@ -61,8 +64,9 @@ public class ListItem implements Comparable<ListItem>{
         return comp;
     }
 
-    public ListItem parseString(String s) {
-        // TODO - implement
-        return null;
+    public static ListItem parseString(String s) {
+        String[] elems = s.split(":");
+        return new ListItem(elems[0], elems[1], Boolean.parseBoolean(elems[2]));
+        // return null;
     }
 }

@@ -18,7 +18,11 @@ public class ItemTester {
             item.setDescription(" a new description! ");
             
             JComponent d = item.toComponent();
-            f.add(d);
+            JComponent e = ListItem.parseString("parsedName:parsedDesc:false").toComponent();
+            JComponent g = new JPanel();
+            g.add(d);
+            g.add(e);
+            f.add(g);
             f.setVisible(false);
             f.setVisible(true);
             System.out.println("pls");
