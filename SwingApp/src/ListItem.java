@@ -49,6 +49,9 @@ public class ListItem implements Comparable<ListItem>{
         JLabel descLabel = new JLabel(description);
         JCheckBox doneBox = new JCheckBox();
         doneBox.setSelected(isDone);
+        doneBox.addActionListener((event)-> {
+            toggleDone();
+        });
         comp.add(nameLabel);
         comp.add(descLabel);
         comp.add(doneBox);
