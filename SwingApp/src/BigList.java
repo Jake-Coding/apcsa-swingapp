@@ -3,6 +3,9 @@ import javax.swing.*;
 import java.io.*;
 import java.awt.GridBagConstraints;  
 import java.awt.GridBagLayout; 
+import java.awt.event.*;
+import javax.swing.event.*;
+import java.awt.Component;
 // import java.awt.*;
 
 public class BigList {
@@ -22,6 +25,15 @@ public class BigList {
 
     public void deleteItem(int index) {
         list.remove(index);
+    }
+
+    public void deleteItem(ListItem item) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == item) {
+                deleteItem(i);
+                break;
+            }
+        }
     }
 
     public void editName(int index, String newName) {
@@ -54,27 +66,27 @@ public class BigList {
     }
 
     public JComponent toComponent() {
-        int gridX = 0;
+        int yCounter = 0;
         JComponent comp = new JPanel();
         
-        GridBagLayout grid = new GridBagLayout();  
         GridBagConstraints gbc = new GridBagConstraints();  
-        comp.setLayout(grid);  
         GridBagLayout layout = new GridBagLayout();  
         comp.setLayout(layout);  
         gbc.fill = GridBagConstraints.HORIZONTAL; 
         
         JLabel titleComp = new JLabel(this.title);
-        // comp.add(titleComp);
-        gbc.gridx = ++gridX;  
-        gbc.gridy = 0;  
+        comp.add(titleComp);
+        gbc.gridy = ++yCounter;  
+        gbc.gridx = 0;  
         layout.addLayoutComponent(titleComp, gbc); 
         for (ListItem item : list) {
-            JComponent itemComp = item.toComponent();
-            gbc.gridx = ++gridX;  
-            gbc.gridy = 0;  
+            JComponent itemComp = item.toComponent(this);
+            
+           // itemComp.addsomeListener() { when(all fields blank), deleteItem(item)} 
+            gbc.gridy = ++yCounter;  
+            gbc.gridx = 0;  
             layout.addLayoutComponent(itemComp, gbc);  
-            // comp.add(itemComp);
+            comp.add(itemComp);
         }
 
         JTextField input = new JTextField(title);
@@ -84,11 +96,13 @@ public class BigList {
             writeFile(filename);
         });
 
-        gbc.gridx = ++gridX;  
-        gbc.gridy = 0;  
+        comp.add(input);
+        comp.add(saveBtn);
+        gbc.gridy = ++yCounter;  
+        gbc.gridx = 0;  
         layout.addLayoutComponent(input, gbc); 
-        gbc.gridx = ++gridX;  
-        gbc.gridy = 0;  
+        gbc.gridy = ++yCounter;  
+        gbc.gridx = 0;  
         layout.addLayoutComponent(saveBtn, gbc); 
         // Todo- test this please I need an adult
         return comp;
