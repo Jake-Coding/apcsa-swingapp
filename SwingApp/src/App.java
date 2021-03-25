@@ -9,31 +9,38 @@ public class App extends JFrame {
     //globalizing buttons
     JButton openButton; 
     JButton backButton; 
-
-    JButton save; 
+    JButton saveButton; 
+    
+    //two different scenes
+    JFrame frame; //coresponding to default 
+    JFrame f; //coresponding to individual
 
     //default view
    private App(){
-
-        var frame = new JFrame(); 
-        frame.setSize(500,500); 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        frame.setLayout(null);
-        
-        //when imputing the file name
-        var openButton = new JButton();
-        openButton.setBounds(50,100,95,30);  
-        openButton.setText("Open"); 
-        openButton.addActionListener(e -> System.out.println("example"));
-        frame.add(openButton);     
-
-
-        frame.setVisible(true);
-
+        mainView(); 
     }   
 
+    private void mainView(){
+          //TODO add feature to implement file names
+          var frame = new JFrame(); 
+          frame.setSize(500,500); 
+          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+          frame.setLayout(null);
+          
+          //when imputing the file name
+          var openButton = new JButton();
+          openButton.setBounds(50,100,95,30);  
+          openButton.setText("Open"); 
+          openButton.setActionCommand("open");
+          openButton.addActionListener(new Switcher());
+          frame.add(openButton);     
+  
+  
+          frame.setVisible(true);
+
+    }
     //list item view
-    private void listView(){
+    private void individualView(){
         var f = new JFrame(); 
         f.setSize(500,500); 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
@@ -42,7 +49,7 @@ public class App extends JFrame {
         var SaveButton = new JButton();
         SaveButton.setText("Save");  
         SaveButton.setBounds(50,100,95,30); 
-        SaveButton.addActionListener(new NextPage());
+        SaveButton.addActionListener(new Switcher());
         //SaveButton.addActionListener(e -> System.out.println("example"));
         f.add(SaveButton); 
 
@@ -51,34 +58,37 @@ public class App extends JFrame {
         backButton.setBounds(50,100,95,30); 
         backButton.setText("Back");
         f.add(backButton); 
-        openButton.addActionListener(e -> System.out.println("example"));
+        backButton.setActionCommand("back"); 
         f.setVisible(true);
     }
 
-    //running/building app
+    private void getFileFromInput(){
+        //Jlabel for every thing or individual event
+        //or maybe jtree
+    }
+
+    //running/building app - might remove depending on future functionality
     public static void runGUI(){
         JFrame.setDefaultLookAndFeelDecorated(true);
       
-        App mainView = new App(); 
+        App app = new App(); 
    }
 
    //switching pages
-   
-   //TODO -- finish switching pages 
-   private class NextPage implements ActionListener { 
-
+   private class Switcher implements ActionListener { 
+        //TODO - rework to make it so that there are not two different pannels
+        //might have to rework logic
     public void actionPerformed(ActionEvent event) {
       String eventName = event.getActionCommand();
-      
-      if(eventName.equals("tba")) {
-          //firstFrame(); 
+        //if Back button = true = go to back
+      if(eventName.equals("open")) { //add critera of adding file, make some event trigger
+            individualView();
+       }
+
+       if(eventName.equals("back")){
+            mainView(); 
        }
     }
-
-    
-
-    
-
 
    }
     public static void main(String[] args){
@@ -101,6 +111,8 @@ public class App extends JFrame {
 //   - On list view
 //     - saveCurrentList
 //     - editListItem
+
+//-add scanner file - will have to look at backend code
 
  
 
