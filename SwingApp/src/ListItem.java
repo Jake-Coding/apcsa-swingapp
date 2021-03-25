@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
 import java.awt.*;
 
 public class ListItem implements Comparable<ListItem>{
@@ -6,10 +8,13 @@ public class ListItem implements Comparable<ListItem>{
     private String description;
     private boolean isDone;
 
+    private String fix(String s) {
+        return s.replaceAll(":", "");
+    }
     public ListItem(String name, String description, boolean isDone) {
-        this.name = name;
-        this.description = description;
-        this.isDone = isDone;
+        this.name = fix(name);
+        this.description = fix(description);
+        this.isDone = (isDone);
     }
     public ListItem(String name, String description) {
         this(name, description, false);
@@ -37,15 +42,67 @@ public class ListItem implements Comparable<ListItem>{
     }
 
     public String toString() {
-        return name + ":" + description + (isDone ? "finished" : "unfinished");
+        return name + ":" + description +":"+ (isDone ? "true" : "false");
     }
 
-    public JComponent toComponent() {
+    public JComponent toComponent(BigList l) {
+        ListItem t = this;
         JComponent comp = new JPanel();
-        JLabel nameLabel = new JLabel(name);
-        JLabel descLabel = new JLabel(description);
+        JTextField nameLabel = new JTextField(name);
+        JTextField descLabel = new JTextField(description);
+        nameLabel.getDocument().addDocumentListener(new DocumentListener(){
+           public void changedUpdate(DocumentEvent e) {
+               setName(nameLabel.getText());
+               if (descLabel.getText().equals("") && nameLabel.getText().equals("")) {
+                   l.deleteItem(t);
+                   comp.setVisible(false);
+               }
+           } 
+           public void insertUpdate(DocumentEvent e) {
+               setName(nameLabel.getText());
+               if (descLabel.getText().equals("") && nameLabel.getText().equals("")) {
+                   l.deleteItem(t);
+                   comp.setVisible(false);
+               }
+           }           
+           public void removeUpdate(DocumentEvent e) {
+               setName(nameLabel.getText());
+               if (descLabel.getText().equals("") && nameLabel.getText().equals("")) {
+                   l.deleteItem(t);
+                   comp.setVisible(false);
+               }
+           }
+        });
+        descLabel.getDocument().addDocumentListener(new DocumentListener(){
+           public void changedUpdate(DocumentEvent e) {
+               setDescription(descLabel.getText());
+               if (descLabel.getText().equals("") && nameLabel.getText().equals("")) {
+                   l.deleteItem(t);
+                   comp.setVisible(false);
+               }
+               
+           } 
+            public void insertUpdate(DocumentEvent e) {
+               setDescription(descLabel.getText());
+               if (descLabel.getText().equals("") && nameLabel.getText().equals("")) {
+                   l.deleteItem(t);
+                   comp.setVisible(false);
+               }
+           }           
+           public void removeUpdate(DocumentEvent e) {
+               setDescription(descLabel.getText());
+               if (descLabel.getText().equals("") && nameLabel.getText().equals("")) {
+                   l.deleteItem(t);
+                   comp.setVisible(false);
+               }
+           } 
+        
+        });
         JCheckBox doneBox = new JCheckBox();
         doneBox.setSelected(isDone);
+        doneBox.addActionListener((event)-> {
+            toggleDone();
+        });
         comp.add(nameLabel);
         comp.add(descLabel);
         comp.add(doneBox);
@@ -61,8 +118,9 @@ public class ListItem implements Comparable<ListItem>{
         return comp;
     }
 
-    public ListItem parseString(String s) {
-        // TODO - implement
-        return null;
+    public static ListItem parseString(String s) {
+        String[] elems = s.split(":");
+        return new ListItem(elems[0], elems[1], Boolean.parseBoolean(elems[2]));
+        // return null;
     }
 }
