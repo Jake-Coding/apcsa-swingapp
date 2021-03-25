@@ -30,6 +30,7 @@ public class ListItem implements Comparable<ListItem>{
     public String getDescription() {return description;}
     public boolean getIsDone() {return isDone;}
     public boolean finished() {return getIsDone();}
+    public boolean isEmpty() {return name.isBlank() && description.isBlank();}
 
     public void setName(String name) {this.name = name;}
     public void setDescription(String description) {this.description = description;}
@@ -48,8 +49,9 @@ public class ListItem implements Comparable<ListItem>{
     public JComponent toComponent(BigList l) {
         ListItem t = this;
         JComponent comp = new JPanel();
-        JTextField nameLabel = new JTextField(name);
-        JTextField descLabel = new JTextField(description);
+        JTextField nameLabel = new JTextField(name, 10);
+        
+        JTextField descLabel = new JTextField(description, 10);
         nameLabel.getDocument().addDocumentListener(new DocumentListener(){
            public void changedUpdate(DocumentEvent e) {
                setName(nameLabel.getText());
