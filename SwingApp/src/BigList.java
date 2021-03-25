@@ -1,14 +1,17 @@
-import java.util.*;
-import javax.swing.*;
-import java.io.*;
-import java.awt.GridBagConstraints;  
-import java.awt.GridBagLayout; 
-import java.awt.event.*;
-import javax.swing.event.*;
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.Dimension;
-// import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 public class BigList {
     // public static void main(String[] args) {
