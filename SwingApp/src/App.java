@@ -13,7 +13,7 @@ public class App extends JFrame {
     JButton save; 
 
     //default view
-   private void App(){
+   private App(){
 
         var frame = new JFrame(); 
         frame.setSize(500,500); 
@@ -65,7 +65,7 @@ public class App extends JFrame {
    //switching pages
    
    //TODO -- finish switching pages 
-   class NextPage implements ActionListener { 
+   private class NextPage implements ActionListener { 
 
     public void actionPerformed(ActionEvent event) {
       String eventName = event.getActionCommand();
@@ -75,6 +75,12 @@ public class App extends JFrame {
        }
     }
 
+    
+
+    
+
+
+   }
     public static void main(String[] args){
         
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -83,12 +89,6 @@ public class App extends JFrame {
             }
         });    
     }
-    
-
-    
-
-
-   }
 }
 
 //base necessities
