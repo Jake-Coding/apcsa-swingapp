@@ -11,6 +11,8 @@ public class ItemTester {
         JComponent c = testingList.toComponent();
 
         f.add(c);
+        JScrollPane please = new JScrollPane(c);
+        f.add(please);
         f.setSize(500, 500);
         f.setVisible(true);
     }
