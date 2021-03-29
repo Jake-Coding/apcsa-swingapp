@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Collections;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -39,6 +40,10 @@ public class BigList {
                 break;
             }
         }
+    }
+
+    public void sort() {
+        Collections.sort(list);
     }
 
     public void editName(int index, String newName) {
