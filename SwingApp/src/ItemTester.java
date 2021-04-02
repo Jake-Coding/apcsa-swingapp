@@ -6,7 +6,7 @@ public class ItemTester {
 
     public ItemTester() throws Exception{
         f = new JFrame("Item testing");
-        BigList testingList = makeBigList("SwingApp/src/TestData.txt");
+        BigList testingList = makeBigList("SwingApp/src/Data.txt");
 
         JComponent c = testingList.toComponent();
 

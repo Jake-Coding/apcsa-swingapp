@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*; 
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
 import java.io.*;
 
 //current task, implement backend
@@ -14,15 +15,10 @@ public class App extends JFrame {
     JButton backButton; 
     JButton saveButton; 
     
-    Scanner noName = new Scanner(System.in); //temp
     //two different scenes
     JFrame frame; //coresponding to default 
     JFrame f; //coresponding to individual
     
-    //files
-    File currentFile; 
-    Scanner scan;
-    //BigList bList = new BigList(title, bigList); 
     //default view
    
     private App(){
@@ -30,13 +26,15 @@ public class App extends JFrame {
     }   
 
     public static BigList makeBigList(String filename) throws Exception {
-        File file1 = new File(filename);
+        File currentFile = new File(filename);
         //scanner to get from front end to back end
-        Scanner s = new Scanner(file1);
-        BigList listOne = BigList.parseData("Test", s);
+        Scanner s = new Scanner(currentFile);
+        BigList listOne = BigList.parseData("Unknown", s);
         return listOne;
     }
 
+
+    //add a throws exception at some point
 
     private void mainView(){
           var frame = new JFrame(); 
@@ -52,9 +50,13 @@ public class App extends JFrame {
           openButton.addActionListener(new Switcher());
           frame.add(openButton);     
   
-  
           frame.setVisible(true);
 
+          //jcomponent
+          JComponent c = listOne.toComponent();
+          f.add(c); 
+          JScrollPane pane = new JScrollPane(c);
+          f.add(pane);
     }
     
     //list item view
@@ -89,18 +91,8 @@ public class App extends JFrame {
         //or maybe jtree
     }
 
-    //individual
-    private void saveCurrentList(){
-
-    }
-
-    private void editListItem(){
-
-    }
-    
     public static void runGUI(){
         JFrame.setDefaultLookAndFeelDecorated(true);
-      
         App app = new App(); 
    }
 
