@@ -22,7 +22,11 @@ public class App extends JFrame {
     //default view
    
     private App(){
-        mainView(); 
+        try{
+            mainView(); 
+        }catch(Exception e){
+
+        }
     }   
 
     public static BigList makeBigList(String filename) throws Exception {
@@ -36,7 +40,7 @@ public class App extends JFrame {
 
     //add a throws exception at some point
 
-    private void mainView(){
+    public void mainView() throws Exception {
           var frame = new JFrame(); 
           frame.setSize(500,500); 
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
@@ -51,34 +55,45 @@ public class App extends JFrame {
           frame.add(openButton);     
   
           frame.setVisible(true);
-
-          //jcomponent
-          JComponent c = listOne.toComponent();
-          f.add(c); 
-          JScrollPane pane = new JScrollPane(c);
-          f.add(pane);
+         
     }
     
     //list item view
-    private void individualView(){
-        var f = new JFrame(); 
+    public void individualView() throws Exception{
+        JFrame f = new JFrame(); 
+        JPanel btns = new JPanel();
         f.setSize(500,500); 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         f.setLayout(null);
 
-        var SaveButton = new JButton();
+        JButton SaveButton = new JButton();
         SaveButton.setText("Save");  
         SaveButton.setBounds(50,100,95,30); 
         SaveButton.addActionListener(new Switcher());
-        f.add(SaveButton); 
+        btns.add(SaveButton); 
 
         //Back button
         var backButton = new JButton(); 
         backButton.setBounds(50,100,95,30); 
         backButton.setText("Back");
-        f.add(backButton); 
+        btns.add(backButton); 
         backButton.setActionCommand("back"); 
-        f.setVisible(true);
+        btns.revalidate();
+        btns.repaint();
+        f.add(btns);
+        
+         //jcomponent
+         BigList listOne = makeBigList("SwingApp/src/Data.txt");
+         JComponent c = listOne.toComponent();
+         f.add(c); 
+         JScrollPane pane = new JScrollPane(c);
+         f.add(pane);
+         f.revalidate();
+         f.repaint();
+
+         
+         f.setVisible(true);
+
     }
 
     //default
@@ -105,11 +120,20 @@ public class App extends JFrame {
         //if Back button = true = go to back
       
         if(eventName.equals("open")) { //add critera of adding file, make some event trigger
-            individualView();
+            try{
+                individualView();
+
+            }catch(Exception e){
+
+            }
         }
 
        if(eventName.equals("back")){
+           try{
             mainView(); 
+           }catch(Exception e){
+
+           }
        }
     }
 
