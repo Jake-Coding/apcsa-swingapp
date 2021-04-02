@@ -52,6 +52,9 @@ public class App extends JFrame {
           openButton.setText("Open"); 
           openButton.setActionCommand("open");
           openButton.addActionListener(new Switcher());
+          openButton.addActionListener((e)-> {
+              frame.dispose();
+          });
           frame.add(openButton);     
   
           frame.setVisible(true);
@@ -64,13 +67,13 @@ public class App extends JFrame {
         JPanel btns = new JPanel();
         f.setSize(500,500); 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        f.setLayout(null);
+        // f.setLayout(null);
 
-        JButton SaveButton = new JButton();
-        SaveButton.setText("Save");  
-        SaveButton.setBounds(50,100,95,30); 
-        SaveButton.addActionListener(new Switcher());
-        btns.add(SaveButton); 
+        // JButton SaveButton = new JButton();
+        // SaveButton.setText("Save");  
+        // SaveButton.setBounds(50,100,95,30); 
+        // SaveButton.addActionListener(new Switcher());
+        // btns.add(SaveButton); 
 
         //Back button
         var backButton = new JButton(); 
@@ -78,15 +81,19 @@ public class App extends JFrame {
         backButton.setText("Back");
         btns.add(backButton); 
         backButton.setActionCommand("back"); 
-        btns.revalidate();
-        btns.repaint();
-        f.add(btns);
+        backButton.addActionListener(new Switcher());
+        backButton.addActionListener((e)-> {
+            f.dispose();
+        });
+        // btns.revalidate();
+        // btns.repaint();
         
          //jcomponent
-         BigList listOne = makeBigList("SwingApp/src/Data.txt");
+         BigList listOne = new BigList("Test", new ArrayList<ListItem>());
          JComponent c = listOne.toComponent();
-         f.add(c); 
-         JScrollPane pane = new JScrollPane(c);
+         btns.add(c);
+         f.add(btns);
+         JScrollPane pane = new JScrollPane(btns);
          f.add(pane);
          f.revalidate();
          f.repaint();
@@ -122,9 +129,10 @@ public class App extends JFrame {
         if(eventName.equals("open")) { //add critera of adding file, make some event trigger
             try{
                 individualView();
+                // close prevFrame
 
             }catch(Exception e){
-
+                e.printStackTrace();
             }
         }
 
