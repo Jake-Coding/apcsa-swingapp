@@ -1,27 +1,44 @@
-//general import statements for cohesion: might be clarified in the future if nothing is correct
-
 import javax.swing.*;
 import java.awt.*; 
 import java.awt.event.*;
+import java.util.*;
+import java.io.*;
+
+//current task, implement backend
+//current problems/bugs: 
+//creating two seperate pannels, instead of using frames because yes
 
 public class App extends JFrame { 
-    
     //globalizing buttons
     JButton openButton; 
     JButton backButton; 
     JButton saveButton; 
     
+    Scanner noName = new Scanner(System.in); //temp
     //two different scenes
     JFrame frame; //coresponding to default 
     JFrame f; //coresponding to individual
-
+    
+    //files
+    File currentFile; 
+    Scanner scan;
+    //BigList bList = new BigList(title, bigList); 
     //default view
-   private App(){
+   
+    private App(){
         mainView(); 
     }   
 
+    public static BigList makeBigList(String filename) throws Exception {
+        File file1 = new File(filename);
+        //scanner to get from front end to back end
+        Scanner s = new Scanner(file1);
+        BigList listOne = BigList.parseData("Test", s);
+        return listOne;
+    }
+
+
     private void mainView(){
-          //TODO add feature to implement file names
           var frame = new JFrame(); 
           frame.setSize(500,500); 
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
@@ -39,6 +56,7 @@ public class App extends JFrame {
           frame.setVisible(true);
 
     }
+    
     //list item view
     private void individualView(){
         var f = new JFrame(); 
@@ -50,7 +68,6 @@ public class App extends JFrame {
         SaveButton.setText("Save");  
         SaveButton.setBounds(50,100,95,30); 
         SaveButton.addActionListener(new Switcher());
-        //SaveButton.addActionListener(e -> System.out.println("example"));
         f.add(SaveButton); 
 
         //Back button
@@ -62,12 +79,25 @@ public class App extends JFrame {
         f.setVisible(true);
     }
 
+    //default
     private void getFileFromInput(){
+        
+        //String filestring = "ex.txt"; 
+        //File currentFile =new File(fileString);   
+        
         //Jlabel for every thing or individual event
         //or maybe jtree
     }
 
-    //running/building app - might remove depending on future functionality
+    //individual
+    private void saveCurrentList(){
+
+    }
+
+    private void editListItem(){
+
+    }
+    
     public static void runGUI(){
         JFrame.setDefaultLookAndFeelDecorated(true);
       
@@ -76,14 +106,15 @@ public class App extends JFrame {
 
    //switching pages
    private class Switcher implements ActionListener { 
-        //TODO - rework to make it so that there are not two different pannels
-        //might have to rework logic
-    public void actionPerformed(ActionEvent event) {
+        //temporary solution - reworking logic afterwards
+      
+        public void actionPerformed(ActionEvent event) {
       String eventName = event.getActionCommand();
         //if Back button = true = go to back
-      if(eventName.equals("open")) { //add critera of adding file, make some event trigger
+      
+        if(eventName.equals("open")) { //add critera of adding file, make some event trigger
             individualView();
-       }
+        }
 
        if(eventName.equals("back")){
             mainView(); 
@@ -92,27 +123,17 @@ public class App extends JFrame {
 
    }
     public static void main(String[] args){
+
+        runGUI();
         
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-              runGUI();
-            }
-        });    
+        // javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        //     public void run() {
+        //       runGUI();
+        //     }
+        // });    
     }
 }
 
-//base necessities
-
-// - App
-//   - default view toggle (back button)
-//   - main method (build app)
-//   - On default view
-//     - getFileFromInput
-//   - On list view
-//     - saveCurrentList
-//     - editListItem
-
-//-add scanner file - will have to look at backend code
 
  
 
