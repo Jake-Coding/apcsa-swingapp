@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import java.util.*;
-import javax.swing.*;
-import java.io.*;
-import java.awt.GridBagConstraints;  
-import java.awt.GridBagLayout; 
-import java.awt.event.*;
-import javax.swing.event.*;
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.Dimension;
-// import java.awt.*;
-=======
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.File;
@@ -26,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
->>>>>>> e14b37f0998c3da22fdf628429398304b27acf27
 
 public class BigList {
     // public static void main(String[] args) {
