@@ -1,17 +1,14 @@
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import java.util.*;
+import javax.swing.*;
+import java.io.*;
+import java.awt.GridBagConstraints;  
+import java.awt.GridBagLayout; 
+import java.awt.event.*;
+import javax.swing.event.*;
+import java.awt.Component;
+import java.awt.Color;
+import java.awt.Dimension;
+// import java.awt.*;
 
 public class BigList {
     // public static void main(String[] args) {
@@ -62,7 +59,7 @@ public class BigList {
     }
     public void writeFile(String filename) {
         try {
-            File file = new File("SwingApp/src/"+filename);
+            File file = new File(filename);
             PrintWriter writer = new PrintWriter(file);
             writer.print(this);
             writer.close();
@@ -79,13 +76,13 @@ public class BigList {
         comp.setLayout(layout);  
         gbc.fill = GridBagConstraints.HORIZONTAL; 
         
-        JLabel titleComp = new JLabel(this.title);
-        comp.add(titleComp);
-        gbc.gridy = ++yCounter;  
-        gbc.gridx = 0;  
-        layout.addLayoutComponent(titleComp, gbc); 
+
         GridBagConstraints gbcInner = new GridBagConstraints();
         GridBagLayout layoutInner = new GridBagLayout();
+        GridBagConstraints gbcMenu = new GridBagConstraints();
+        GridBagLayout layoutMenu = new GridBagLayout();
+        gbcMenu.fill = GridBagConstraints.HORIZONTAL; 
+
         JPanel listItems = new JPanel(layoutInner);
         JScrollPane scrollPane = new JScrollPane(listItems);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -101,7 +98,13 @@ public class BigList {
             layoutInner.addLayoutComponent(itemComp, gbcInner);  
             listItems.add(itemComp);
         }
-        comp.add(listItems);
+
+
+        JLabel titleComp = new JLabel(this.title);
+        comp.add(titleComp);
+        gbcMenu.gridy = 0;  
+        gbcMenu.gridx = 0;  
+        layoutMenu.addLayoutComponent(titleComp, gbcMenu); 
 
         JTextField input = new JTextField(title);
         JButton saveBtn = new JButton("SAVE");
@@ -112,19 +115,19 @@ public class BigList {
 
         comp.add(input);
         comp.add(saveBtn);
-        gbc.gridy = ++yCounter;  
-        gbc.gridx = 0;  
-        layout.addLayoutComponent(input, gbc); 
-        gbc.gridy = ++yCounter;  
-        gbc.gridx = 0;  
-        layout.addLayoutComponent(saveBtn, gbc); 
+        gbcMenu.gridy = 0;  
+        gbcMenu.gridx++;  
+        layoutMenu.addLayoutComponent(input, gbcMenu); 
+        gbcMenu.gridy = 0;  
+        gbcMenu.gridx++;  
+        layout.addLayoutComponent(saveBtn, gbcMenu); 
 
         JButton addBtn = new JButton("+");
         addBtn.addActionListener((event)-> {
             ListItem newItem = new ListItem();
             list.add(newItem);
             gbcInner.gridx = 0;
-            gbcInner.gridy = list.size();
+            gbcInner.gridy++;
             JComponent itemC = newItem.toComponent(this_);
             // comp.removeAll();
             listItems.add(itemC);
@@ -135,9 +138,24 @@ public class BigList {
             
         });
         comp.add(addBtn);
-        gbc.gridy = ++yCounter;
-        gbc.gridx =0;
-        layout.addLayoutComponent(addBtn, gbc);
+        gbcMenu.gridy++;
+        gbcMenu.gridx =0;
+        layoutMenu.addLayoutComponent(addBtn, gbcMenu);
+
+        JPanel menu = new JPanel();
+        JPanel list = new JPanel();
+        menu.setLayout(layoutMenu);
+        list.setLayout(layoutInner);
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        layout.addLayoutComponent(menu, gbc);
+        gbc.gridy = 0;
+        gbc.gridx = 1;
+        layout.addLayoutComponent(list, gbc);
+        // comp.add(listItems);
+        // gbc.gridy = 1;
+        // gbc.gridx =1;
+        // layout.addLayoutComponent(addBtn, gbc);
         // Todo- test this please I need an adult
         return comp;
     }
