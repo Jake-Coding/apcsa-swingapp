@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import java.util.*;
 import javax.swing.*;
 import java.io.*;
@@ -9,6 +10,23 @@ import java.awt.Component;
 import java.awt.Color;
 import java.awt.Dimension;
 // import java.awt.*;
+=======
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Collections;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+>>>>>>> e14b37f0998c3da22fdf628429398304b27acf27
 
 public class BigList {
     // public static void main(String[] args) {
@@ -36,6 +54,10 @@ public class BigList {
                 break;
             }
         }
+    }
+
+    public void sort() {
+        Collections.sort(list);
     }
 
     public void editName(int index, String newName) {
