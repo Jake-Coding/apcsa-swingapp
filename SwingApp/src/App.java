@@ -1,11 +1,15 @@
-//general import statements for cohesion: might be clarified in the future if nothing is correct
-
 import javax.swing.*;
 import java.awt.*; 
 import java.awt.event.*;
+import java.util.*;
+import java.util.List;
+import java.io.*;
+
+//current task, implement backend
+//current problems/bugs: 
+//creating two seperate pannels, instead of using frames because yes
 
 public class App extends JFrame { 
-    
     //globalizing buttons
     JButton openButton; 
     JButton backButton; 
@@ -14,14 +18,29 @@ public class App extends JFrame {
     //two different scenes
     JFrame frame; //coresponding to default 
     JFrame f; //coresponding to individual
-
+    
     //default view
-   private App(){
-        mainView(); 
+   
+    private App(){
+        try{
+            mainView(); 
+        }catch(Exception e){
+
+        }
     }   
 
-    private void mainView(){
-          //TODO add feature to implement file names
+    public static BigList makeBigList(String filename) throws Exception {
+        File currentFile = new File(filename);
+        //scanner to get from front end to back end
+        Scanner s = new Scanner(currentFile);
+        BigList listOne = BigList.parseData("Unknown", s);
+        return listOne;
+    }
+
+
+    //add a throws exception at some point
+
+    public void mainView() throws Exception {
           var frame = new JFrame(); 
           frame.setSize(500,500); 
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
@@ -33,86 +52,112 @@ public class App extends JFrame {
           openButton.setText("Open"); 
           openButton.setActionCommand("open");
           openButton.addActionListener(new Switcher());
+          openButton.addActionListener((e)-> {
+              frame.dispose();
+          });
           frame.add(openButton);     
   
-  
           frame.setVisible(true);
-
+         
     }
+    
     //list item view
-    private void individualView(){
-        var f = new JFrame(); 
+    public void individualView() throws Exception{
+        JFrame f = new JFrame(); 
+        JPanel btns = new JPanel();
         f.setSize(500,500); 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        f.setLayout(null);
+        // f.setLayout(null);
 
-        var SaveButton = new JButton();
-        SaveButton.setText("Save");  
-        SaveButton.setBounds(50,100,95,30); 
-        SaveButton.addActionListener(new Switcher());
-        //SaveButton.addActionListener(e -> System.out.println("example"));
-        f.add(SaveButton); 
+        // JButton SaveButton = new JButton();
+        // SaveButton.setText("Save");  
+        // SaveButton.setBounds(50,100,95,30); 
+        // SaveButton.addActionListener(new Switcher());
+        // btns.add(SaveButton); 
 
         //Back button
         var backButton = new JButton(); 
         backButton.setBounds(50,100,95,30); 
         backButton.setText("Back");
-        f.add(backButton); 
+        btns.add(backButton); 
         backButton.setActionCommand("back"); 
-        f.setVisible(true);
+        backButton.addActionListener(new Switcher());
+        backButton.addActionListener((e)-> {
+            f.dispose();
+        });
+        // btns.revalidate();
+        // btns.repaint();
+        
+         //jcomponent
+         BigList listOne = new BigList("Test", new ArrayList<ListItem>());
+         JComponent c = listOne.toComponent();
+         btns.add(c);
+         f.add(btns);
+         JScrollPane pane = new JScrollPane(btns);
+         f.add(pane);
+         f.revalidate();
+         f.repaint();
+
+         
+         f.setVisible(true);
+
     }
 
+    //default
     private void getFileFromInput(){
+        
+        //String filestring = "ex.txt"; 
+        //File currentFile =new File(fileString);   
+        
         //Jlabel for every thing or individual event
         //or maybe jtree
     }
 
-    //running/building app - might remove depending on future functionality
     public static void runGUI(){
         JFrame.setDefaultLookAndFeelDecorated(true);
-      
         App app = new App(); 
    }
 
    //switching pages
    private class Switcher implements ActionListener { 
-        //TODO - rework to make it so that there are not two different pannels
-        //might have to rework logic
-    public void actionPerformed(ActionEvent event) {
+        //temporary solution - reworking logic afterwards
+      
+        public void actionPerformed(ActionEvent event) {
       String eventName = event.getActionCommand();
         //if Back button = true = go to back
-      if(eventName.equals("open")) { //add critera of adding file, make some event trigger
-            individualView();
-       }
+      
+        if(eventName.equals("open")) { //add critera of adding file, make some event trigger
+            try{
+                individualView();
+                // close prevFrame
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 
        if(eventName.equals("back")){
+           try{
             mainView(); 
+           }catch(Exception e){
+
+           }
        }
     }
 
    }
     public static void main(String[] args){
+
+        runGUI();
         
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-              runGUI();
-            }
-        });    
+        // javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        //     public void run() {
+        //       runGUI();
+        //     }
+        // });    
     }
 }
 
-//base necessities
-
-// - App
-//   - default view toggle (back button)
-//   - main method (build app)
-//   - On default view
-//     - getFileFromInput
-//   - On list view
-//     - saveCurrentList
-//     - editListItem
-
-//-add scanner file - will have to look at backend code
 
  
 
