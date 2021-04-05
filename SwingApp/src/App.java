@@ -65,7 +65,7 @@ public class App extends JFrame {
     public void individualView() throws Exception{
         JFrame f = new JFrame(); 
         JPanel btns = new JPanel();
-        f.setSize(500,500); 
+        f.setSize(1000,1000); 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         // f.setLayout(null);
 

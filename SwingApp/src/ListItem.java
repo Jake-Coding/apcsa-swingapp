@@ -124,7 +124,8 @@ public class ListItem implements Comparable<ListItem>{
 
     public static ListItem parseString(String s) {
         String[] elems = s.split(":");
-        return new ListItem(elems[0], elems[1], Boolean.parseBoolean(elems[2]));
+
+        return elems.length == 3 ? new ListItem(elems[0], elems[1], Boolean.parseBoolean(elems[2])) : new ListItem();
         // return null;
     }
 }

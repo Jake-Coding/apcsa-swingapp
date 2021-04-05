@@ -119,6 +119,7 @@ public class BigList {
         saveBtn.addActionListener((event)-> {
             String filename = input.getText() + ".txt";
             writeFile(filename);
+            
         });
 
         comp.add(input);
@@ -126,7 +127,7 @@ public class BigList {
         gbcMenu.gridy = 0;  
         gbcMenu.gridx++;  
         layoutMenu.addLayoutComponent(input, gbcMenu); 
-        gbcMenu.gridy = 0;  
+        gbcMenu.gridy = 1;  
         gbcMenu.gridx++;  
         layout.addLayoutComponent(saveBtn, gbcMenu); 
 
@@ -141,6 +142,8 @@ public class BigList {
             listItems.add(itemC);
             layoutInner.addLayoutComponent(itemC, gbcInner);
             // comp.setBackground(new Color(255,0,0));
+            comp.revalidate();
+            comp.repaint();
             listItems.revalidate();
             listItems.repaint();
             
