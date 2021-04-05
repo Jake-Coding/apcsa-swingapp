@@ -81,9 +81,12 @@ public class App extends JFrame {
         btns.revalidate();
         btns.repaint();
         f.add(btns);
+        f.revalidate();
+         f.repaint();
+        System.out.println("hidsf");
         
          //jcomponent
-         BigList listOne = makeBigList("SwingApp/src/Data.txt");
+         BigList listOne = makeBigList("./src/Data.txt");
          JComponent c = listOne.toComponent();
          f.add(c); 
          JScrollPane pane = new JScrollPane(c);
