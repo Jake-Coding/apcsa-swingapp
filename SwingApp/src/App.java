@@ -4,19 +4,19 @@ import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 import java.io.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 public class App extends JFrame { 
-    //globalizing buttons
     JButton openButton; 
     JButton backButton; 
     JButton saveButton; 
     JButton openFileButton;
+    String filename; 
     
     //two different scenes
     JFrame frame; //coresponding to default 
     JFrame f; //coresponding to individual
-
-    String filename; 
     
     //default view
     private App(){
@@ -28,10 +28,11 @@ public class App extends JFrame {
     }   
     //initializes big list
     public static BigList makeBigList(String filename) throws Exception {
-        File currentFile = new File(filename);
+        File currentFile = new File("bin\\" + filename);
         //scanner to get from front end to back end
         Scanner s = new Scanner(currentFile);
-        BigList listOne = BigList.parseData("Unknown", s);
+        System.out.println(filename);
+        BigList listOne = BigList.parseData(filename, s);
         return listOne;
     }
 
@@ -39,7 +40,11 @@ public class App extends JFrame {
           var frame = new JFrame(); 
           frame.setSize(1000,1000); 
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-          frame.setLayout(null);
+          //frame.setLayout(null);
+          GridBagConstraints gbc = new GridBagConstraints();  
+          GridBagLayout layout = new GridBagLayout();  
+          frame.setLayout(layout);  
+          gbc.fill = GridBagConstraints.HORIZONTAL; 
           
           //open button is case if you don't have a files
           var openButton = new JButton();
@@ -51,24 +56,33 @@ public class App extends JFrame {
               frame.dispose();
           });
 
-          frame.add(openButton);     
-
-          JTextField fileInput = new JTextField();
-          frame.add(fileInput);
+          gbc.gridy = 0;  
+          gbc.gridx = 0;  
+          layout.addLayoutComponent(openButton, gbc);  
+          frame.add(openButton);
           
+          JTextField fileInput = new JTextField();
+        //   frame.add(fileInput);
+        gbc.gridy = 1;  
+        gbc.gridx = 0;  
+        layout.addLayoutComponent(fileInput, gbc);  
+        frame.add(fileInput);
           openFileButton = new JButton("Open File");
           openFileButton.addActionListener((e) -> {
-            try{
-               individualView(fileInput.getText(),false);  
-            }catch(Exception error) {
-                System.out.println(error);
-            }
-          });
-          frame.add(openFileButton);
-          frame.revalidate();
-          frame.repaint();
-          frame.setVisible(true);
-         
+              try{
+                  individualView(fileInput.getText(),false);  
+                }catch(Exception error) {
+                    System.out.println(error);
+                }
+            });
+            gbc.gridy = 1;  
+            gbc.gridx = 1;  
+            layout.addLayoutComponent(openFileButton, gbc);  
+            frame.add(openFileButton);
+            frame.revalidate();
+            frame.repaint();
+            // frame.add(openButton);     
+            frame.setVisible(true);
     }
     
     //list item view
@@ -100,7 +114,7 @@ public class App extends JFrame {
         
          BigList listOne;
          if(isNew) {
-            listOne = new BigList("Newfile", new ArrayList<ListItem>());
+            listOne = new BigList("InsertNEWfileNameHere.txt", new ArrayList<ListItem>());
          } else {
              listOne = makeBigList(filename);
          }

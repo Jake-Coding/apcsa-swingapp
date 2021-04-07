@@ -67,7 +67,7 @@ public class BigList {
     }
     public void writeFile(String filename) {
         try {
-            File file = new File(filename);
+            File file = new File("bin\\" + filename);
             PrintWriter writer = new PrintWriter(file);
             writer.print(this);
             writer.close();
@@ -117,7 +117,7 @@ public class BigList {
         JTextField input = new JTextField(title);
         JButton saveBtn = new JButton("SAVE");
         saveBtn.addActionListener((event)-> {
-            String filename = input.getText() + ".txt";
+            String filename = input.getText();
             writeFile(filename);
             
         });
