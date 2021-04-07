@@ -5,22 +5,20 @@ import java.util.*;
 import java.util.List;
 import java.io.*;
 
-//current task, implement backend
-//current problems/bugs: 
-//creating two seperate pannels, instead of using frames because yes
-
 public class App extends JFrame { 
     //globalizing buttons
     JButton openButton; 
     JButton backButton; 
     JButton saveButton; 
+    JButton openFileButton;
     
     //two different scenes
     JFrame frame; //coresponding to default 
     JFrame f; //coresponding to individual
+
+    String filename; 
     
     //default view
-   
     private App(){
         try{
             mainView(); 
@@ -28,7 +26,7 @@ public class App extends JFrame {
 
         }
     }   
-
+    //initializes big list
     public static BigList makeBigList(String filename) throws Exception {
         File currentFile = new File(filename);
         //scanner to get from front end to back end
@@ -37,32 +35,44 @@ public class App extends JFrame {
         return listOne;
     }
 
-
-    //add a throws exception at some point
-
     public void mainView() throws Exception {
           var frame = new JFrame(); 
-          frame.setSize(500,500); 
+          frame.setSize(1000,1000); 
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
           frame.setLayout(null);
           
-          //when imputing the file name
+          //open button is case if you don't have a files
           var openButton = new JButton();
           openButton.setBounds(50,100,95,30);  
-          openButton.setText("Open"); 
-          openButton.setActionCommand("open");
+          openButton.setText("New"); 
+          openButton.setActionCommand("new");
           openButton.addActionListener(new Switcher());
           openButton.addActionListener((e)-> {
               frame.dispose();
           });
+
           frame.add(openButton);     
-  
+
+          JTextField fileInput = new JTextField();
+          frame.add(fileInput);
+          
+          openFileButton = new JButton("Open File");
+          openFileButton.addActionListener((e) -> {
+            try{
+               individualView(fileInput.getText(),false);  
+            }catch(Exception error) {
+                System.out.println(error);
+            }
+          });
+          frame.add(openFileButton);
+          frame.revalidate();
+          frame.repaint();
           frame.setVisible(true);
          
     }
     
     //list item view
-    public void individualView() throws Exception{
+    public void individualView(String filename, boolean isNew) throws Exception{
         JFrame f = new JFrame(); 
         JPanel btns = new JPanel();
         f.setSize(1000,1000); 
@@ -88,8 +98,12 @@ public class App extends JFrame {
         // btns.revalidate();
         // btns.repaint();
         
-         //jcomponent
-         BigList listOne = new BigList("Test", new ArrayList<ListItem>());
+         BigList listOne;
+         if(isNew) {
+            listOne = new BigList("Newfile", new ArrayList<ListItem>());
+         } else {
+             listOne = makeBigList(filename);
+         }
          JComponent c = listOne.toComponent();
          btns.add(c);
          f.add(btns);
@@ -103,34 +117,20 @@ public class App extends JFrame {
 
     }
 
-    //default
-    private void getFileFromInput(){
-        
-        //String filestring = "ex.txt"; 
-        //File currentFile =new File(fileString);   
-        
-        //Jlabel for every thing or individual event
-        //or maybe jtree
-    }
-
+    //runs the app, might be unessisary, is potentially temp
     public static void runGUI(){
         JFrame.setDefaultLookAndFeelDecorated(true);
         App app = new App(); 
    }
 
    //switching pages
-   private class Switcher implements ActionListener { 
-        //temporary solution - reworking logic afterwards
-      
+   private class Switcher implements ActionListener {       
         public void actionPerformed(ActionEvent event) {
       String eventName = event.getActionCommand();
-        //if Back button = true = go to back
       
-        if(eventName.equals("open")) { //add critera of adding file, make some event trigger
+        if(eventName.equals("new")) { //add critera of adding file, make some event trigger: mayb
             try{
-                individualView();
-                // close prevFrame
-
+                individualView("",true);
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -147,14 +147,7 @@ public class App extends JFrame {
 
    }
     public static void main(String[] args){
-
         runGUI();
-        
-        // javax.swing.SwingUtilities.invokeLater(new Runnable() {
-        //     public void run() {
-        //       runGUI();
-        //     }
-        // });    
     }
 }
 
